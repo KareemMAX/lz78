@@ -44,18 +44,18 @@ public class Tag {
         List<Tag> tags = new ArrayList<>(bytes.length / 2);
 
         for (int i = 0; i < bytes.length / 2; i++) {
-            tags.add(new Tag(Arrays.copyOfRange(bytes, i*2, (i*2 + 1))));
+            tags.add(new Tag(Arrays.copyOfRange(bytes, i*2, (i*2 + 2))));
         }
 
         return tags;
     }
 
-    public byte getPosition() {
-        return position;
+    public int getPosition() {
+        return Byte.toUnsignedInt(position);
     }
 
-    public void setPosition(byte position) {
-        this.position = position;
+    public void setPosition(int position) {
+        this.position = (byte) position;
     }
 
     public char getNextChar() {

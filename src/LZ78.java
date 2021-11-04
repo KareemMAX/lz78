@@ -61,17 +61,24 @@ public class LZ78 {
         dictionary.add("\0");
 
         for (int i = 0; i < str.length();){
+            // Reset the dictionary
+            if (dictionary.size() == 256) {
+                dictionary.clear();
+                dictionary.add("\0");
+            }
+
             int dictionaryIndex = 0;
             StringBuilder temp_str = new StringBuilder();
             for (int j = i; j < str.length(); j++){
                 temp_str.append(str.charAt(j));
-                if (dictionary.contains(temp_str.toString()))
+                if (dictionary.contains(temp_str.toString())) {
                     dictionaryIndex = dictionary.indexOf(temp_str.toString());
-                    if (j == str.length() - 1){
-                        Tag tag = new Tag( (byte) dictionaryIndex, '\0');
+                    if (j == str.length() - 1) {
+                        Tag tag = new Tag((byte) dictionaryIndex, '\0');
                         tags.add(tag);
                         i += temp_str.length();
                     }
+                }
                 else {
                     char next = temp_str.charAt(temp_str.length() - 1);
                     dictionary.add(temp_str.toString());
@@ -93,6 +100,11 @@ public class LZ78 {
 
         for (Tag tag :
                 tags) {
+            // Reset the dictionary
+            if (dictionary.size() == 255) {
+                dictionary.clear();
+            }
+
             if(tag.getPosition() == 0) {
                 dictionary.add(String.valueOf(tag.getNextChar()));
                 if(tag.getNextChar() != 0)
